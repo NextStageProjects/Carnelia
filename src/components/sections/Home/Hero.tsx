@@ -1,5 +1,5 @@
 // src/components/sections/Home/Hero.tsx
-import heroBg from '/src/assets/home/hero/fotos/ElementossiteACernelha1.jpg';
+import heroBg from '/src/assets/home/hero/fotos/elementossiteacernelha1.jpg';
 
 interface HeroProps {
   onOpenReservation: () => void;

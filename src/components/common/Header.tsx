@@ -1,6 +1,6 @@
 // src/components/common/Header.tsx
 import { Link } from 'react-router-dom';
-import logoImg from '../../assets/common/header/Logo da cernelha.png';
+import logoImg from '../../assets/common/header/Logo-da-cernelha.png';
 
 export function Header() {
   const cinzel = { fontFamily: "'Cinzel', serif" };
