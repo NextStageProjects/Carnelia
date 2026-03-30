@@ -28,8 +28,8 @@ export function Home() {
         <Sobre />
         <Especialidades />
         <Menu />
-        <Celebridades />
         <Reservas />
+        <Celebridades />
         <Galeria />
         <TakeAway />
         <Reviews />

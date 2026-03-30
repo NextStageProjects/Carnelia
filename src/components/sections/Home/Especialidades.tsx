@@ -1,9 +1,13 @@
+// src/components/sections/Home/Especialidades.tsx
 import { useState, useEffect } from 'react';
 import { getEspecialidades, type Especialidade } from '../../../services/especialidades';
 
 export function Especialidades() {
   const [pratos, setPratos] = useState<Especialidade[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const montserrat = { fontFamily: "'Montserrat', sans-serif" };
+  const cinzel = { fontFamily: "'Cinzel', serif" };
 
   useEffect(() => {
     async function carregarEspecialidades() {
@@ -20,40 +24,56 @@ export function Especialidades() {
   }, []);
 
   return (
-    // Reduzi o padding vertical de py-20 para py-12
-    <section className="w-full bg-[#f4f2ee] py-12 flex justify-end">
-      <div className="w-full max-w-[94%] ml-auto pr-0">
+    <section className="w-full bg-[#f4f2ee] py-24 flex flex-col items-center overflow-hidden">
+      <div className="w-full max-w-[94%]">
         
-        {/* Reduzi a margem inferior do título de mb-16 para mb-10 */}
-        <div className="flex items-center mb-10 gap-6 pr-12">
-          <h2 className="text-brand-red text-2xl md:text-3xl font-light tracking-[0.2em] uppercase whitespace-nowrap">
-            As Nossas Especialidades!
+        {/* TÍTULO: Centralizado com Traços Verdes #05402d */}
+        <div className="flex items-center justify-center mb-16 gap-8 px-4 w-full">
+          <div className="flex-1 h-[1px] bg-[#05402d]"></div>
+          <h2 
+            style={cinzel} 
+            className="text-[#69151f] text-[34px] font-light tracking-[0.2em] uppercase whitespace-nowrap"
+          >
+            As nossas Especialidades!
           </h2>
-          <div className="flex-1 h-[1px] bg-brand-green/20"></div>
+          <div className="flex-1 h-[1px] bg-[#05402d]"></div>
         </div>
 
         {loading ? (
-          <div className="text-center text-brand-red py-12">A carregar especialidades...</div>
+          <div style={montserrat} className="text-center text-[#69151f] py-12 text-[11px] uppercase">
+            A carregar iguarias...
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {pratos.map((prato) => (
-              // Mudei a proporção de aspect-[3/4.5] (muito alto) para aspect-[4/5] (mais equilibrado)
-              <div key={prato.id} className="relative aspect-[4/5] overflow-hidden group border-l-[1px] border-[#f4f2ee]/10 bg-black">
+              <div key={prato.id} className="relative aspect-[4/5] p-8">
                 
+                {/* A IMAGEM (com o tamanho reduzido pelo p-8) */}
                 <img 
                   src={prato.imagem} 
                   alt={prato.nome}
-                  className="w-full h-full object-cover opacity-90 transition-transform duration-1000 group-hover:scale-105"
+                  className="w-full h-full object-cover shadow-lg"
                 />
                 
-                {/* Ajustei a caixa vermelha: menor padding (p-5) e menor altura mínima (100px) */}
-                <div className="absolute bottom-0 right-0 left-8">
-                  <div className="bg-brand-red text-white p-4 md:p-5 flex flex-col justify-center min-h-[100px] shadow-2xl">
-                    <h3 className="text-[11px] md:text-[12px] font-bold tracking-[0.1em] leading-tight uppercase">
+                {/* CAIXA VERMELHA (#69151f):
+                    - bottom-8 e right-8: Fazem a caixa "tocar" na borda da foto.
+                    - left-[55%]: Garante que ela não toca no lado esquerdo e fica com menos de metade da largura.
+                */}
+                <div className="absolute bottom-8 right-8 left-[30%] z-20">
+                  <div className="bg-[#69151f] text-white p-5 flex flex-col justify-center min-h-[100px] shadow-xl">
+                    <h3 
+                      style={cinzel}
+                      className="text-[12px] md:text-[14px] font-bold tracking-[0.05em] uppercase leading-tight"
+                    >
                       {prato.nome}
                     </h3>
                     {prato.preco && (
-                      <span className="text-xl font-light mt-2 block">{prato.preco}</span>
+                      <span 
+                        style={montserrat}
+                        className="text-base font-light mt-2 block opacity-90"
+                      >
+                        {prato.preco}
+                      </span>
                     )}
                   </div>
                 </div>
