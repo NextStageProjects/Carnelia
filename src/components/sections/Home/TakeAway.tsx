@@ -1,102 +1,215 @@
-// src/components/sections/Home/TakeAway.tsx
-import fotoMotoboy from "../../../assets/home/takeaway.tsx/foto/motoboy.jpg";
-import fotoPrato from "../../../assets/home/takeaway.tsx/foto/prato.png";
+import fotoCompleta from "../../../assets/home/takeaway.tsx/foto/foto_completa.png"; 
 import imgTouro from "../../../assets/home/touro/tourro.png";
-import { Phone } from "lucide-react";
+import imgBtnLigar from "../../../assets/home/takeaway.tsx/icone/ligar.jpg";
+import imgBtnCarta from "../../../assets/home/takeaway.tsx/icone/ver_carta.jpg";
 
 export function TakeAway() {
   const montserrat = { fontFamily: "'Montserrat', sans-serif" };
   const cinzel = { fontFamily: "'Cinzel', serif" };
 
+  // Função para converter o pixel exato do Penpot em medida elástica (base 1920px)
+  const pxToVw = (px: number) => `${(px / 19.2).toFixed(4)}vw`;
+
+  // Seta branca (triângulo) conforme image_73db2b: 10x12px
+  const arrowStyle = {
+    width: pxToVw(10),
+    height: pxToVw(12),
+    backgroundColor: 'white',
+    clipPath: "polygon(0% 0%, 100% 50%, 0% 100%)",
+    flexShrink: 0
+  };
+
+  // Recorte Estilo Ticket para os botões
   const ticketClip = {
-    clipPath: "polygon(0% 15%, 5% 0%, 95% 0%, 100% 15%, 100% 85%, 95% 100%, 5% 100%, 0% 85%)"
+    clipPath: "polygon(8% 0%, 92% 0%, 100% 25%, 100% 75%, 92% 100%, 8% 100%, 0% 75%, 0% 25%)"
   };
 
   return (
-    <section 
-      id="takeaway" 
-      className="relative w-full bg-[#69151f] py-12 md:py-24 flex flex-col items-center md:justify-center overflow-hidden min-h-[600px] md:min-h-[700px]"
-    >
-      <div className="max-w-6xl w-full px-6 flex flex-col items-center md:flex-row z-10">
-        
-        {/* TEXTO E BOTÕES */}
-        <div className="w-full md:w-[45%] md:translate-x-[-8%] flex flex-col items-center text-center md:items-start md:text-left mb-12 md:mb-0">
-          <span style={montserrat} className="text-white text-[10px] font-bold tracking-[0.5em] uppercase opacity-80 mb-3">
-            L E V A N T A M E N T O S
-          </span>
-          
-          <h2 style={cinzel} className="text-white text-[28px] md:text-[38px] leading-tight uppercase mt-2 mb-5">
-            Temos Take Away
-          </h2>
+    <section id="takeaway" className="w-full bg-[#69151f] flex justify-center overflow-hidden">
+      
+      {/* Container Mestre 1920px */}
+      <div className="relative w-full max-w-[1920px] h-[clamp(750px,44vw,900px)] mx-auto">
 
-          <div className="flex items-center justify-center md:justify-start gap-4 mb-6 w-full">
-            <div className="w-12 h-[1px] bg-white/20"></div>
-            <img src={imgTouro} alt="Touro" className="h-7 w-auto object-contain opacity-90" />
-            <div className="w-12 h-[1px] bg-white/20"></div>
-          </div>
-
-          <p style={montserrat} className="text-white text-[13px] md:text-[15px] font-light mb-8 tracking-wide opacity-90">
-            Leve o melhor da nossa tradição para casa!
-          </p>
-
-          <div style={montserrat} className="w-full max-w-[280px] md:max-w-none space-y-3 mb-10 text-white/80 text-[11px] md:text-[12px] uppercase tracking-wider flex flex-col items-start">
-            <div className="flex items-center gap-3">
-              <span className="text-white text-[8px]">▶</span> 
-              <p>Consulte a nossa carta e escolha o seu pedido</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-white text-[8px]">▶</span> 
-              <p>Entre em contato para pedir o seu take away</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-white text-[8px]">▶</span> 
-              <p>Levante o seu pedido no restaurante</p>
-            </div>
-          </div>
-
-          <div className="flex flex-row gap-3">
-            <button style={ticketClip} className="bg-[#05402d] text-white px-5 py-2.5 flex items-center gap-2 hover:scale-105 transition-all shadow-lg text-sm">
-              <Phone size={14} fill="white" />
-              <span style={montserrat} className="font-bold uppercase tracking-wider">Ligar</span>
-            </button>
-            <button style={ticketClip} className="bg-[#05402d] text-white px-5 py-2.5 flex items-center justify-center hover:scale-105 transition-all shadow-lg min-w-[120px] text-sm">
-              <span style={montserrat} className="font-bold uppercase tracking-wider">Ver Carta</span>
-            </button>
-          </div>
-        </div>
-
-        {/* MOLDURA TÚNEL - COMPRIMENTO AUMENTADO NO MOBILE (w-[150%]) */}
-        <div className={`
-          relative bg-[#05402d] rounded-l-full shadow-xl z-0 overflow-hidden flex items-center justify-end
-          /* Mobile: Muito mais comprida para a frente */
-          w-[200%] h-[250px] translate-x-32 mt-4
-          /* PC: Mantido conforme a versão que estavas satisfeito */
-          md:absolute md:right-[-8%] md:w-[60%] md:h-[450px] md:top-[18%] md:translate-x-0 md:mt-0
-          p-[3px] md:p-[6px]
-        `}>
-          <div className="w-full h-full rounded-l-full overflow-hidden">
-            <img 
-              src={fotoMotoboy} 
-              alt="Serviço Take Away" 
-              className="w-full h-full object-cover" 
-              style={{ objectPosition: 'center 20%' }}
-            />
-          </div>
-        </div>
-
-        {/* FOTO DO PRATO */}
-        <div className={`
-          absolute pointer-events-none z-20
-          right-[-15px] bottom-[-15px] w-[210px]
-          md:right-0 md:bottom-[-.4px] md:w-[380px]
-        `}>
+        {/* 1. FOTO COMPLETA (Com o volume solicitado) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            right: 0,
+            top: pxToVw(60),
+            bottom: pxToVw(1),
+            width: pxToVw(1300),
+            zIndex: 0
+          }}
+          className="hidden md:block"
+        >
           <img 
-            src={fotoPrato} 
-            alt="Prato" 
-            className="w-full h-auto drop-shadow-[0_15px_40px_rgba(0,0,0,0.8)]" 
+            src={fotoCompleta} 
+            alt="Take Away Background" 
+            className="w-full h-full object-cover object-right" 
           />
         </div>
+
+        {/* 2. CONTEÚDO DE TEXTO */}
+        
+        {/* LEVANTAMENTOS */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(80), 
+            left: pxToVw(158),
+            width: pxToVw(509),
+            textAlign: 'center',
+            ...montserrat
+          }}
+          className="z-10"
+        >
+          <span 
+            style={{ 
+              fontSize: pxToVw(20), 
+              fontWeight: 800, 
+              letterSpacing: '0.4em',
+              lineHeight: '1.2' 
+            }} 
+            className="text-white uppercase"
+          >
+            LEVANTAMENTOS
+          </span>
+        </div>
+
+        {/* TÍTULO: TEMOS TAKE AWAY (CENTRALIZADO no bloco) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(135), 
+            left: pxToVw(121),
+            width: pxToVw(583), // Alinhado com a largura do divisor para centro perfeito
+            textAlign: 'center',
+            ...cinzel
+          }}
+          className="z-10"
+        >
+          <h2 
+            style={{ 
+              fontSize: pxToVw(64), 
+              fontWeight: 400, 
+              lineHeight: '1.2' 
+            }} 
+            className="text-white uppercase whitespace-nowrap"
+          >
+            Temos Take Away
+          </h2>
+        </div>
+
+        {/* DIVISOR TOURO (Traços colados ao touro) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(280), 
+            left: pxToVw(121),
+            width: pxToVw(583)
+          }}
+          className="flex items-center justify-center gap-[0.5vw] z-10" 
+        >
+          <div style={{ width: pxToVw(68.55), height: pxToVw(1.83), backgroundColor: 'white' }}></div>
+          <img 
+            src={imgTouro} 
+            alt="" 
+            style={{ width: pxToVw(54.36), height: pxToVw(84) }} 
+            className="object-contain"
+          />
+          <div style={{ width: pxToVw(68.55), height: pxToVw(1.83), backgroundColor: 'white' }}></div>
+        </div>
+
+        {/* TEXTO APOIO */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(410),
+            left: pxToVw(157),
+            width: pxToVw(509),
+            textAlign: 'center',
+            ...montserrat
+          }}
+          className="z-10"
+        >
+          <p 
+            style={{ 
+              fontSize: pxToVw(21), 
+              fontWeight: 400, 
+              lineHeight: '1.2' 
+            }} 
+            className="text-white opacity-90"
+          >
+            Leve o melhor da nossa tradição para casa!
+          </p>
+        </div>
+
+        {/* LISTA DE PASSOS */}
+        <div 
+          style={{ 
+            position: 'absolute', 
+            top: pxToVw(480), 
+            left: pxToVw(139) 
+          }}
+          className="flex flex-col gap-[1.2vw] z-10"
+        >
+          {[
+            "Consulte a nossa carta e escolha o seu pedido",
+            "Entre em contato connosco para pedir o seu take away",
+            "Levante o seu pedido no restaurante"
+          ].map((texto, i) => (
+            <div key={i} className="flex items-center gap-[1.5vw]">
+              <div style={arrowStyle}></div>
+              <p 
+                style={{ 
+                  ...montserrat, 
+                  fontSize: pxToVw(19), 
+                  fontWeight: 400, 
+                  lineHeight: '1.2' 
+                }} 
+                className="text-white"
+              >
+                {texto}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* BOTÕES */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(620),
+            left: pxToVw(121),
+            width: pxToVw(583)
+          }}
+          className="flex justify-center gap-[1.5vw] z-10"
+        >
+          <div 
+            style={ticketClip} 
+            className="w-[clamp(140px,11vw,200px)] h-[clamp(70px,5.5vw,100px)] overflow-hidden hover:scale-105 transition-transform cursor-pointer shadow-xl"
+          >
+            <img src={imgBtnLigar} alt="Ligar" className="w-full h-full object-cover" />
+          </div>
+          <div 
+            style={ticketClip} 
+            className="w-[clamp(140px,11vw,200px)] h-[clamp(70px,5.5vw,100px)] overflow-hidden hover:scale-105 transition-transform cursor-pointer shadow-xl"
+          >
+            <img src={imgBtnCarta} alt="Ver Carta" className="w-full h-full object-cover" />
+          </div>
+        </div>
+
       </div>
+
+      {/* MOBILE */}
+      <style>{`
+        @media (max-width: 1024px) {
+          #takeaway .relative { height: auto; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; gap: 30px; }
+          #takeaway div[style*="position: absolute"] { position: static !important; width: 100% !important; text-align: center !important; }
+          #takeaway h2 { font-size: 36px !important; white-space: normal !important; }
+          #takeaway div[style*="flex-direction: column"] { align-items: flex-start; text-align: left; margin: 20px 0; }
+        }
+      `}</style>
     </section>
   );
 }

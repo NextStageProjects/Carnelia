@@ -1,141 +1,214 @@
-// src/components/sections/Home/Celebridades.tsx
-import { useState, useEffect, useRef } from 'react';
-import imgTouro from '../../../assets/home/touro/tourro.png';
-
-// Importação das fotos
-import imgFlavio from '../../../assets/home/celebridades/fotos/flacio-furtado.jpg';
-import imgMiguel from '../../../assets/home/celebridades/fotos/miguel-rocha-vieira.jpg';
-import imgSonia from '../../../assets/home/celebridades/fotos/sonia-taraves.jpg';
-import imgTony from '../../../assets/home/celebridades/fotos/tony-carreira.jpg';
-
-const celebridades = [
-  { id: 1, nome: "FLÁVIO FURTADO", cargo: "Apresentador", bio: "Conhecida cara da televisão portuguesa e presença habitual nos ecrãs nacionais.", imagem: imgFlavio },
-  { id: 2, nome: "MIGUEL ROCHA VIEIRA", cargo: "Chef", bio: "Chefe português com 3 estrelas michelin e um dos maiores embaixadores da nossa gastronomia.", imagem: imgMiguel },
-  { id: 3, nome: "SÓNIA TAVARES", cargo: "Vocalista The Gift", bio: "Cantora icónica da banda The Gift, uma das vozes mais potentes de Portugal.", imagem: imgSonia },
-  { id: 4, nome: "TONY CARREIRA", cargo: "Cantor", bio: "O maior nome da música romântica em Portugal, com uma carreira de décadas cheia de sucessos.", imagem: imgTony }
-];
+import touroPng from '../../../assets/home/touro/tourro.png';
+// Importa as tuas 4 fotos aqui
+import img1 from '../../../assets/home/celebridades/fotos/miguel.jpg'; 
+import img2 from '../../../assets/home/celebridades/fotos/sonia.jpg';
+import img3 from '../../../assets/home/celebridades/fotos/tony.jpg';
+import img4 from '../../../assets/home/celebridades/fotos/flacio.jpg'; 
 
 export function Celebridades() {
-  const [activeIndex, setActiveIndex] = useState(1);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isDown, setIsDown] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
   const montserrat = { fontFamily: "'Montserrat', sans-serif" };
   const cinzel = { fontFamily: "'Cinzel', serif" };
 
-  // Centraliza no 2º item ao carregar
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (scrollRef.current && window.innerWidth < 768) {
-        const container = scrollRef.current;
-        const target = container.children[1] as HTMLElement;
-        if (target) {
-          const offset = target.offsetLeft - (container.offsetWidth / 2) + (target.offsetWidth / 2);
-          container.scrollTo({ left: offset, behavior: 'smooth' });
-        }
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+  // Função para converter o pixel exato do Penpot em medida elástica (base 1920px)
+  const pxToVw = (px: number) => `${(px / 19.2).toFixed(4)}vw`;
 
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const container = scrollRef.current;
-    const center = container.scrollLeft + container.offsetWidth / 2;
-    
-    let closestIndex = 0;
-    let minDistance = Infinity;
-
-    Array.from(container.children).forEach((child, i) => {
-      const childCenter = (child as HTMLElement).offsetLeft + (child as HTMLElement).offsetWidth / 2;
-      const distance = Math.abs(center - childCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = i;
-      }
-    });
-    setActiveIndex(closestIndex);
-  };
-
-  // Mouse Drag Logic
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDown(true);
-    setStartX(e.pageX - (scrollRef.current?.offsetLeft || 0));
-    setScrollLeft(scrollRef.current?.scrollLeft || 0);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDown || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - (scrollRef.current.offsetLeft || 0);
-    const walk = (x - startX) * 1.5;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
+  const celebridadesData = [
+    {
+      nome: "MIGUEL ROCHA VIEIRA",
+      cargo: "Chef",
+      descricao: "Chefe português com 3 estrelas michelin e um dos maiores embaixadores da gastronomia portuguesa no mundo.",
+      img: img1,
+      left: 43 // Original
+    },
+    {
+      nome: "SÓNIA TAVARES",
+      cargo: "Vocalista dos \"The Gift\"",
+      descricao: "Cantora portuguesa e vocalista dos The Gift e uma das maiores vozes da música portuguesa no mundo global.",
+      img: img2,
+      left: 507 // Ajustado para 4 colunas
+    },
+    {
+      nome: "TONY CARREIRA",
+      cargo: "Cantor e músico português",
+      descricao: "Cantor português com carreira mundial e um dos maiores ícones da música romântica em Portugal e no mundo.",
+      img: img3,
+      left: 971 // Ajustado para 4 colunas
+    },
+    {
+      nome: "NOME DA CELEBRIDADE 4",
+      cargo: "Cargo/Profissão",
+      descricao: "Descrição detalhada da quarta celebridade seguindo o mesmo padrão das anteriores.",
+      img: img4,
+      left: 1435 // Ajustado para 4 colunas
+    }
+  ];
 
   return (
-    <section id="celebridades" className="w-full bg-[#f4f2ee] py-16 md:py-24 overflow-hidden">
+    <section id="celebridades" className="w-full bg-[#f1efea] flex justify-center overflow-hidden">
       
-      <div className="text-center mb-12 px-6">
-        <span style={montserrat} className="text-[#05402d] text-[10px] font-bold tracking-[0.4em] uppercase block mb-3">Curiosidades</span>
-        <h2 style={cinzel} className="text-[#69151f] text-3xl md:text-4xl font-bold uppercase mb-4">Celebridades</h2>
-        <div className="flex items-center justify-center gap-4 mb-6">
-          <div className="w-12 h-[1px] bg-[#05402d]/40"></div>
-          <img src={imgTouro} alt="Touro" className="h-6 w-auto mix-blend-multiply" />
-          <div className="w-12 h-[1px] bg-[#05402d]/40"></div>
-        </div>
-        <p style={montserrat} className="text-[#69151f] text-[13px] italic opacity-80 max-w-sm mx-auto">Algumas caras conhecidas que já visitaram o nosso espaço.</p>
-      </div>
+      {/* Container Mestre 1920px */}
+      <div className="relative w-full max-w-[1920px] h-[clamp(1100px,72vw,1450px)] mx-auto">
 
-      <div className="w-full max-w-7xl mx-auto">
+        {/* 1. Subtítulo: CURIOSIDADES 
+            Top: 48px | Font: 20px | Montserrat Bold (800) | Cor: #05402d
+        */}
         <div 
-          ref={scrollRef}
-          onScroll={handleScroll}
-          onMouseDown={handleMouseDown}
-          onMouseUp={() => setIsDown(false)}
-          onMouseLeave={() => setIsDown(false)}
-          onMouseMove={handleMouseMove}
-          className="
-            flex md:grid md:grid-cols-4 gap-6 md:gap-8
-            overflow-x-auto md:overflow-visible
-            snap-x snap-mandatory md:snap-none
-            px-[15%] md:px-8 pb-12 no-scrollbar
-            cursor-grab active:cursor-grabbing
-          "
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(48),
+            width: '100%',
+            textAlign: 'center',
+            ...montserrat
+          }}
         >
-          {celebridades.map((pessoa, index) => (
-            <div 
-              key={pessoa.id} 
-              className={`
-                min-w-[75vw] md:min-w-0 relative snap-center transition-all duration-500
-                ${index === activeIndex ? 'scale-105 opacity-100' : 'scale-95 opacity-40 blur-[0.5px] md:blur-0 md:opacity-100'}
-              `}
-            >
-              <div className="aspect-[3/4] overflow-hidden shadow-2xl bg-white mb-6 rounded-sm pointer-events-none">
-                <img src={pessoa.imagem} alt={pessoa.nome} className="w-full h-full object-cover" />
-              </div>
-              
-              <div className="flex flex-col items-center md:items-start text-center md:text-left px-2">
-                <h3 style={cinzel} className="text-[#69151f] text-lg md:text-xl font-bold uppercase mb-1">{pessoa.nome}</h3>
-                <p style={montserrat} className="text-[#05402d] text-[10px] font-bold italic uppercase mb-3 tracking-widest">{pessoa.cargo}</p>
-                <p style={montserrat} className="text-[#69151f] text-[12px] leading-relaxed opacity-90">{pessoa.bio}</p>
-              </div>
-            </div>
-          ))}
+          <span 
+            style={{ fontSize: pxToVw(20), fontWeight: 800, letterSpacing: '0.4em' }} 
+            className="text-[#05402d] uppercase pl-[0.4em]"
+          >
+            CURIOSIDADES
+          </span>
         </div>
 
-        {/* DOTS Mobile */}
-        <div className="flex justify-center gap-3 mt-4 md:hidden">
-          {celebridades.map((_, idx) => (
-            <div key={idx} className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeIndex ? 'bg-[#69151f] w-6' : 'bg-gray-300 w-1.5'}`}></div>
-          ))}
+        {/* 2. Título: CELEBRIDADES
+            Top: 100px | Font: 64px | Cinzel | Cor: #69151f
+        */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(100),
+            width: '100%',
+            textAlign: 'center'
+          }}
+        >
+          <h2 
+            style={{ ...cinzel, fontSize: pxToVw(64), fontWeight: 400 }} 
+            className="text-[#69151f] uppercase"
+          >
+            Celebridades
+          </h2>
         </div>
+
+        {/* 3. DIVISOR TOURO
+            Touro: 63.56px x 82px | Linhas: 80.15px
+        */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(195),
+            width: '100%'
+          }}
+          className="flex items-center justify-center gap-[1.5vw]"
+        >
+          <div style={{ width: pxToVw(80.15), height: pxToVw(1.78), backgroundColor: '#05402d' }}></div>
+          <img 
+            src={touroPng} 
+            alt="" 
+            style={{ width: pxToVw(63.56), height: pxToVw(82) }} 
+            className="object-contain mix-blend-multiply"
+          />
+          <div style={{ width: pxToVw(80.15), height: pxToVw(1.78), backgroundColor: '#05402d' }}></div>
+        </div>
+
+        {/* 4. Texto Apoio
+            Top: 265px | Font: 21px | Montserrat | Cor: #69151f
+        */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(265),
+            width: '100%',
+            textAlign: 'center',
+            ...montserrat
+          }}
+        >
+          <p style={{ fontSize: pxToVw(21), fontWeight: 400 }} className="text-[#69151f]">
+            Algumas caras conhecidas que já visitaram o nosso espaço.
+          </p>
+        </div>
+
+        {/* ========================================================= */}
+        {/* GALERIA DE 4 CELEBRIDADES (PIXEL PERFECT)                 */}
+        {/* ========================================================= */}
+
+        {celebridadesData.map((item, index) => (
+          <div 
+            key={index}
+            style={{ 
+              position: 'absolute',
+              left: pxToVw(item.left),
+              top: pxToVw(352.52),
+              width: pxToVw(429)
+            }}
+            className="flex flex-col"
+          >
+            {/* Imagem (SEM EFEITOS): 429px x 524.86px */}
+            <div 
+              style={{ 
+                width: pxToVw(429), 
+                height: pxToVw(524.86), 
+                overflow: 'hidden'
+              }}
+              className="shadow-xl mb-[2vw] bg-gray-200"
+            >
+              <img 
+                src={item.img} 
+                alt={item.nome} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+
+            {/* Nome: Font 32px | Cinzel | Cor: #000000 (Preto) */}
+            <h3 
+              style={{ 
+                ...cinzel, 
+                fontSize: pxToVw(32), 
+                color: '#000000', 
+                marginBottom: pxToVw(8) 
+              }}
+              className="uppercase font-normal leading-[1.2]"
+            >
+              {item.nome}
+            </h3>
+
+            {/* Cargo: Font 20px | Montserrat Italic | Cor: #05402D (Verde) */}
+            <span 
+              style={{ 
+                ...montserrat, 
+                fontSize: pxToVw(20), 
+                fontStyle: 'italic', 
+                color: '#05402D',
+                display: 'block',
+                marginBottom: pxToVw(12)
+              }}
+            >
+              {item.cargo}
+            </span>
+
+            {/* Descrição: Font 21px | Montserrat | Cor: #69151F (Bordeaux) */}
+            <p 
+              style={{ 
+                ...montserrat, 
+                fontSize: pxToVw(21), 
+                color: '#69151F', 
+                lineHeight: 1.3,
+                textAlign: 'left'
+              }}
+            >
+              {item.descricao}
+            </p>
+          </div>
+        ))}
+
       </div>
 
+      {/* MOBILE RESPONSIVE */}
       <style>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @media (max-width: 1200px) {
+          #celebridades .relative { height: auto; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; gap: 40px; }
+          #celebridades div[style*="position: absolute"] { position: static !important; width: 100% !important; text-align: center !important; }
+          #celebridades .flex-center { position: static !important; margin: 20px 0; }
+          #celebridades div[style*="width: 22.3438vw"] { width: 100% !important; max-width: 429px; margin-bottom: 40px; }
+        }
       `}</style>
     </section>
   );

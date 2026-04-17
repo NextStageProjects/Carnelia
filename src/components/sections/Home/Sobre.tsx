@@ -1,6 +1,5 @@
-// src/components/sections/Home/Sobre.tsx
-import imgTopoDireita from '../../../assets/home/sobre/fotos/Fica-no-topo-a-direita.jpg';
-import imgBaixoEsquerda from '../../../assets/home/sobre/fotos/Fica-embaixo-a-esquerda-com-borda.jpeg';
+import imgEquipa from '../../../assets/home/sobre/fotos/Fica-no-topo-a-direita.jpg';
+import imgSala from '../../../assets/home/sobre/fotos/Fica-embaixo-a-esquerda-com-borda.jpeg';
 import imgAssinatura from '../../../assets/home/sobre/assinatura/asssinatura.png';
 import imgTouro from '../../../assets/home/touro/tourro.png';
 
@@ -8,87 +7,221 @@ export function Sobre() {
   const montserrat = { fontFamily: "'Montserrat', sans-serif" };
   const cinzel = { fontFamily: "'Cinzel', serif" };
 
+  // Função mágica para converter o pixel exato do Penpot em medida elástica (base 1920px)
+  const pxToVw = (px: number) => `${(px / 19.2).toFixed(4)}vw`;
+
   return (
-    <section className="w-full bg-[#f4f2ee] py-16 md:py-24 px-6 md:px-8 flex justify-center overflow-hidden">
-      
-      <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32 items-center md:translate-x-[80px]">
+    <section 
+      id="sobre" 
+      style={{ backgroundColor: "#f1efea" }} 
+      className="w-full flex justify-center overflow-hidden"
+    >
+      {/* Container Mestre: Tranca as coordenadas no layout de 1920px */}
+      <div className="relative w-full h-[clamp(850px,56vw,1100px)] max-w-[1920px] mx-auto">
 
-        {/* COLUNA DA ESQUERDA (CONTEÚDO) */}
-        <div className="flex flex-col items-center md:items-start z-10">
-          
-          <div className="w-full flex flex-col items-center md:items-start">
-            
-            <div className="w-full flex flex-col items-center mb-8 md:mb-10">
-              <span
-                style={montserrat}
-                className="text-[#05402d] text-[11px] font-bold tracking-[0.4em] uppercase mb-4"
-              >
-                Sobre Nós
-              </span>
+        {/* 1. TEXTO "SOBRE NÓS" (Sem traço à frente)
+            Top: 60px | Left: 380px
+        */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(60), 
+            left: pxToVw(380),
+            zIndex: 30
+          }}
+        >
+          <span 
+            style={{ 
+              ...montserrat, 
+              fontSize: pxToVw(20), 
+              fontWeight: 800 
+            }} 
+            className="text-[#05402d] uppercase tracking-[0.3em] whitespace-nowrap"
+          >
+            Sobre Nós
+          </span>
+        </div>
 
-              <h2
-                style={cinzel}
-                className="text-[#69151f] text-[28px] md:text-[34px] leading-tight uppercase mb-6 text-center"
-              >
-                Somos um restaurante <br className="hidden md:block" /> experiente
-              </h2>
+        {/* 2. TÍTULOS - Somos um restaurante experiente */}
+        <h2 
+          style={{ 
+            ...cinzel,
+            position: 'absolute',
+            top: pxToVw(144), 
+            left: pxToVw(89),
+            width: pxToVw(826),
+            fontSize: pxToVw(64),
+            lineHeight: "1.1",
+            textAlign: 'center'
+          }}
+          className="text-[#69151f] uppercase font-normal z-10"
+        >
+          Somos um restaurante
+        </h2>
 
-              <div className="flex items-center justify-center">
-                <div className="w-10 md:w-12 h-[1px] bg-[#05402d]/40"></div>
-                <div className="px-4">
-                  <img 
-                    src={imgTouro} 
-                    alt="Touro Cernelha" 
-                    className="h-6 md:h-8 w-auto object-contain mix-blend-multiply" 
-                  />
-                </div>
-                <div className="w-10 md:w-12 h-[1px] bg-[#05402d]/40"></div>
-              </div>
-            </div>
+        <h2 
+          style={{ 
+            ...cinzel,
+            position: 'absolute',
+            top: pxToVw(231), 
+            left: pxToVw(42),
+            width: pxToVw(920),
+            fontSize: pxToVw(64),
+            lineHeight: "1.1",
+            textAlign: 'center'
+          }}
+          className="text-[#69151f] uppercase font-normal z-10"
+        >
+          experiente
+        </h2>
 
-            <p
-              style={montserrat}
-              className="text-[#69151f] text-[12px] md:text-[11px] leading-relaxed text-center md:text-justify w-full max-w-lg mb-10 md:mb-12"
-            >
-              O Restaurante A Cernelha é um restaurante de cozinha portuguesa que honra a nossa tradição gastronómica, privilegiando os autênticos grelhados no carvão. Somos uma referência no Ribatejo, destacando-nos pela excelente qualidade e generosas quantidades, grande variedade de pratos, atendimento simpático e preços justos. A uma extensa carta de vinhos representa orgulhosamente a cidade que nos acolhe, o Cartaxo, conhecida como capital do vinho. Trabalhamos todos os dias, incluindo feriados, para proporcionar uma verdadeira experiência da gastronomia ribatejana.
-            </p>
-          </div>
+        {/* 3. DIVISOR TOURO (Medidas exatas image_663022 e image_663047) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(340), 
+            left: pxToVw(89), 
+            width: pxToVw(826) 
+          }}
+          className="flex items-center justify-center gap-[1.5vw] z-10"
+        >
+          {/* Linha Esquerda */}
+          <div 
+            style={{ 
+              width: pxToVw(80.15), 
+              height: pxToVw(1.78), 
+              backgroundColor: '#05402D' 
+            }}
+          ></div>
 
-          <div className="w-full flex flex-col items-center md:items-start mb-12 md:mb-20">
-            <img 
-              src={imgAssinatura} 
-              alt="Assinatura Patroa" 
-              className="h-14 md:h-20 w-auto object-contain mix-blend-multiply opacity-90"
-            />
-            <span
-              style={cinzel}
-              className="text-black text-[13px] md:text-[14.9px] font-bold tracking-[0.15em] uppercase mt-2"
-            >
-              Ass. Patroa
-            </span>
+          {/* Ícone Touro */}
+          <img 
+            src={imgTouro} 
+            alt="Touro" 
+            style={{ 
+              width: pxToVw(63.56), 
+              height: pxToVw(82),
+              objectFit: 'contain'
+            }} 
+            className="mix-blend-multiply" 
+          />
+
+          {/* Linha Direita */}
+          <div 
+            style={{ 
+              width: pxToVw(80.15), 
+              height: pxToVw(1.78), 
+              backgroundColor: '#05402D' 
+            }}
+          ></div>
+        </div>
+
+        {/* 4. PARÁGRAFO PRINCIPAL */}
+        <p
+          style={{ 
+            ...montserrat, 
+            position: 'absolute',
+            top: pxToVw(402),
+            left: pxToVw(110),
+            width: pxToVw(806),
+            fontSize: pxToVw(22),
+            lineHeight: "1.6"
+          }}
+          className="text-[#69151f] text-justify font-normal opacity-90 z-10"
+        >
+          A Restaurante A Cernelha é um restaurante de cozinha portuguesa que honra a nossa tradição gastronómica, privilegiando os autênticos grelhados no carvão. Somos uma referência no Ribatejo, destacando-nos pela excelente qualidade e generosas quantidades, grande variedade de pratos, atendimento simpático e preços justos. A nossa extensa carta de vinhos representa orgulhosamente a cidade que nos acolhe, o Cartaxo, conhecida como capital do vinho. Trabalhamos todos os dias, incluindo feriados, para proporcionar uma verdadeira experiência da gastronomia ribatejana.
+        </p>
+
+        {/* 5. ASSINATURA PATROA (Medidas exatas image_662c61) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(680), 
+            left: pxToVw(110),
+            width: pxToVw(101.63),
+            zIndex: 10 
+          }} 
+          className="flex flex-col items-start gap-0"
+        >
+          <img 
+            src={imgAssinatura} 
+            alt="Assinatura" 
+            style={{ 
+              width: pxToVw(101.63), 
+              height: pxToVw(161.75),
+              objectFit: 'contain'
+            }} 
+            className="mix-blend-multiply" 
+          />
+          <div 
+            style={{ 
+              ...cinzel, 
+              fontSize: pxToVw(27), 
+              fontWeight: 900,
+              marginTop: pxToVw(-15) 
+            }} 
+            className="text-black uppercase leading-tight"
+          >
+            Ass. <br /> Patroa
           </div>
         </div>
 
-        {/* COLUNA DA DIREITA (FOTOS) */}
-        <div className="relative h-[580px] md:h-[650px] w-full">
-          
-          {/* Foto Principal (Equipa) */}
-          <div className="absolute top-0 left-0 md:right-0 md:left-auto w-full md:w-[80%] h-[80%] md:h-full z-10">
-            <img src={imgTopoDireita} alt="Nossa Equipa" className="w-full h-full object-cover shadow-xl" />
-          </div>
+        {/* ===================== MONTAGEM DE FOTOS (PIXEL PERFECT) ===================== */}
 
-          {/* Badge +12 Anos */}
-          <div className="absolute top-6 right-0 md:right-auto md:-left-20 md:top-[10%] bg-[#69151f] text-white py-4 px-8 md:py-8 md:px-16 flex flex-col items-center justify-center z-30 shadow-2xl min-w-max">
-            <span className="text-3xl md:text-6xl font-bold mb-1">+12</span>
-            <span style={cinzel} className="text-[8px] md:text-xs font-bold tracking-[0.3em] uppercase text-center leading-relaxed">
-              Anos de Experiência
-            </span>
-          </div>
+        {/* FOTO 1: EQUIPA (Camada de Fundo)
+            Left: 1190px | Top: 51px
+        */}
+        <img 
+          src={imgEquipa} 
+          alt="Nossa Equipa" 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(51), 
+            left: pxToVw(1190), 
+            width: pxToVw(626), 
+            height: pxToVw(884),
+            zIndex: 0
+          }}
+          className="object-cover shadow-2xl"
+        />
 
-          {/* Foto Interior com Borda Verde: EXPANDIDA PARA CIMA E ESQUERDA */}
-          <div className="absolute bottom-0 right-0 w-[75%] md:w-[70%] aspect-square md:right-auto md:-left-20 z-20 border-[8px] md:border-[12px] border-[#05402d] shadow-2xl overflow-hidden bg-white">
-            <img src={imgBaixoEsquerda} alt="Restaurante Interior" className="w-full h-full object-cover" />
-          </div>
+        {/* FOTO 2: CAIXA VERMELHA (+12 ANOS) - Camada Intermédia
+            Left: 873px | Top: 143px
+        */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(143), 
+            left: pxToVw(873), 
+            width: pxToVw(343), 
+            height: pxToVw(155),
+            backgroundColor: "#69151f",
+            zIndex: 10
+          }}
+          className="flex flex-col items-center justify-center text-white shadow-xl"
+        >
+          <span style={{ ...cinzel, fontSize: pxToVw(55), fontWeight: 'bold' }}>+ 12</span>
+          <span style={{ ...montserrat, fontSize: pxToVw(14), fontWeight: 800 }} className="uppercase tracking-[0.2em]">
+            Anos de Experiência
+          </span>
+        </div>
+
+        {/* FOTO 3: SALA COM BORDA VERDE (À frente de tudo)
+            Left: 374px | Top: 431px | Border: 12px
+        */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(431), 
+            left: pxToVw(374), 
+            width: pxToVw(512), 
+            height: pxToVw(504),
+            border: `${pxToVw(12)} solid #05402d`,
+            zIndex: 20
+          }}
+          className="shadow-2xl overflow-hidden bg-white"
+        >
+          <img src={imgSala} alt="Nossa Sala" className="w-full h-full object-cover" />
         </div>
 
       </div>

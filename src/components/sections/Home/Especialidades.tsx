@@ -1,176 +1,178 @@
 // src/components/sections/Home/Especialidades.tsx
-import { useState, useEffect, useRef } from 'react';
-import { getEspecialidades, type Especialidade } from '../../../services/especialidades';
 
 export function Especialidades() {
-  const [pratos, setPratos] = useState<Especialidade[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(1); // Foco no 2º prato (índice 1)
-  
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isDown, setIsDown] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const montserrat = { fontFamily: "'Montserrat', sans-serif" };
   const cinzel = { fontFamily: "'Cinzel', serif" };
+  const montserrat = { fontFamily: "'Montserrat', sans-serif" };
 
-  useEffect(() => {
-    async function carregarEspecialidades() {
-      try {
-        const dados = await getEspecialidades();
-        if (dados) {
-          setPratos(dados);
-          
-          // FORÇAR O FOCO NO MEIO AO CARREGAR
-          setTimeout(() => {
-            if (scrollRef.current && dados.length > 1) {
-              const container = scrollRef.current;
-              const targetChild = container.children[1] as HTMLElement; // Segundo prato
-              if (targetChild) {
-                const scrollPos = targetChild.offsetLeft - (container.offsetWidth / 2) + (targetChild.offsetWidth / 2);
-                container.scrollTo({ left: scrollPos, behavior: 'smooth' });
-              }
-            }
-          }, 300);
-        }
-      } catch (error) {
-        console.error("Erro:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    carregarEspecialidades();
-  }, []);
+  // FOTOS TEMPORÁRIAS (Mantendo os links que forneceste)
+  const imgTeste1 = "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=401&h=496&auto=format&fit=crop";
+  const imgTeste2 = "https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=401&h=496&auto=format&fit=crop";
+  const imgTeste3 = "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=401&h=496&auto=format&fit=crop";
 
-  // Lógica de Scroll para atualizar a bolinha e o zoom
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const container = scrollRef.current;
-    const center = container.scrollLeft + container.offsetWidth / 2;
-    
-    let closestIndex = 0;
-    let minDistance = Infinity;
-
-    Array.from(container.children).forEach((child, i) => {
-      const childCenter = (child as HTMLElement).offsetLeft + (child as HTMLElement).offsetWidth / 2;
-      const distance = Math.abs(center - childCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = i;
-      }
-    });
-    setActiveIndex(closestIndex);
-  };
-
-  // Funções de Arrastar (Drag) para PC e Mobile
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDown(true);
-    if (scrollRef.current) {
-      setStartX(e.pageX - scrollRef.current.offsetLeft);
-      setScrollLeft(scrollRef.current.scrollLeft);
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDown || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const stopDragging = () => setIsDown(false);
+  // Função para converter o pixel exato do Penpot em medida elástica (base 1920px)
+  const pxToVw = (px: number) => `${(px / 19.2).toFixed(4)}vw`;
 
   return (
-    <section id="especialidades" className="w-full bg-[#f4f2ee] py-16 md:py-24 flex flex-col items-center overflow-hidden">
-      
-      {/* CABEÇALHO */}
-      <div className="text-center mb-12 px-4">
-        <div className="flex items-center justify-center gap-4 mb-2">
-          <div className="w-10 md:w-14 h-[2px] bg-[#05402d]"></div>
-          <span style={cinzel} className="text-[#69151f] text-xl md:text-2xl uppercase tracking-widest">
-            As Nossas
-          </span>
-          <div className="w-10 md:w-14 h-[2px] bg-[#05402d]"></div>
+    <section id="especialidades" className="w-full bg-white flex justify-center overflow-hidden">
+      {/* Container Mestre 1920px para travar o layout com as coordenadas do Penpot */}
+      <div className="relative w-full max-w-[1920px] h-[clamp(800px,60vw,1150px)] mx-auto">
+
+        {/* ========================================================= */}
+        {/* CABEÇALHO (Título e Linhas Verdes laterais)              */}
+        {/* ========================================================= */}
+        
+        {/* Linha Verde Esquerda: W 473px | T 134px | L 30px */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(134),
+            left: pxToVw(30),
+            width: pxToVw(473),
+            height: pxToVw(5),
+            backgroundColor: '#05402D'
+          }}
+          className="hidden md:block"
+        />
+
+        {/* Título Central: Top 93px | Font 64px */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(93),
+            width: '100%',
+            textAlign: 'center'
+          }}
+        >
+          <h2 
+            style={{ ...cinzel, fontSize: `clamp(32px, ${pxToVw(64)}, 64px)`, fontWeight: 400 }} 
+            className="text-[#69151f] uppercase"
+          >
+            As Nossas Especialidades!
+          </h2>
         </div>
-        <h2 style={cinzel} className="text-[#69151f] text-4xl md:text-5xl font-bold uppercase tracking-tight">
-          Especialidades!
-        </h2>
+
+        {/* Linha Verde Direita: W 473px | T 131px | L 1413px */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(131),
+            left: pxToVw(1413),
+            width: pxToVw(473),
+            height: pxToVw(5),
+            backgroundColor: '#05402D'
+          }}
+          className="hidden md:block"
+        />
+
+        {/* ========================================================= */}
+        {/* GRID DE CARDS (Costeleta, Febras e Sopa)                  */}
+        {/* ========================================================= */}
+
+        {/* CARD 1: COSTELETA (Left 19px | Top 227px | Width 599px) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(227),
+            left: pxToVw(19),
+            width: pxToVw(599),
+            height: pxToVw(745)
+          }}
+          className="shadow-2xl overflow-hidden group"
+        >
+          <img src={imgTeste1} alt="Costeleta" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          
+          {/* Caixa Vermelha (Bottom-Right): Width 484px | Height 131px */}
+          <div 
+            style={{ 
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              width: pxToVw(483.98),
+              height: pxToVw(130.68),
+              backgroundColor: '#69151F'
+            }}
+            className="flex items-center justify-center p-6"
+          >
+            <p style={{ ...cinzel, fontSize: pxToVw(28) }} className="text-white uppercase text-center leading-tight">
+              Costeleta de boi grelhada <br /> p/2 pessoas à cernelha
+            </p>
+          </div>
+        </div>
+
+        {/* CARD 2: FEBRAS (Left 656.5px | Top 228px | Width 607px) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(228),
+            left: pxToVw(656.5), 
+            width: pxToVw(606.97),
+            height: pxToVw(743)
+          }}
+          className="shadow-2xl overflow-hidden group"
+        >
+          <img src={imgTeste2} alt="Febras" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          
+          <div 
+            style={{ 
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              width: pxToVw(490.42),
+              height: pxToVw(130.32),
+              backgroundColor: '#69151F'
+            }}
+            className="flex items-center justify-center p-6"
+          >
+            <p style={{ ...cinzel, fontSize: pxToVw(28) }} className="text-white uppercase text-center leading-tight">
+              Febras de porco <br /> grelhadas
+            </p>
+          </div>
+        </div>
+
+        {/* CARD 3: SOPA (Left 1295px | Top 228px | Width 607px) */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: pxToVw(228),
+            left: pxToVw(1295),
+            width: pxToVw(607),
+            height: pxToVw(744)
+          }}
+          className="shadow-2xl overflow-hidden group"
+        >
+          <img src={imgTeste3} alt="Sopa" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          
+          {/* Caixa Vermelha mais alta para o preço */}
+          <div 
+            style={{ 
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              width: pxToVw(490),
+              height: pxToVw(200),
+              backgroundColor: '#69151F'
+            }}
+            className="flex flex-col items-center justify-center p-6"
+          >
+            <p style={{ ...cinzel, fontSize: pxToVw(26) }} className="text-white uppercase text-center leading-tight mb-2">
+              Sopa da Pedra p/ 2 pessoas <br /> Stone Soup
+            </p>
+            <span style={{ ...montserrat, fontSize: pxToVw(32), fontWeight: 700 }} className="text-white">
+              6,20€
+            </span>
+          </div>
+        </div>
+
       </div>
 
-      <div className="w-full max-w-7xl px-4">
-        {loading ? (
-          <div style={montserrat} className="text-center text-[#69151f] py-20 text-[11px] uppercase tracking-widest font-bold">
-            A preparar iguarias...
-          </div>
-        ) : (
-          <div className="relative">
-            <div 
-              ref={scrollRef}
-              onScroll={handleScroll}
-              onMouseDown={handleMouseDown}
-              onMouseUp={stopDragging}
-              onMouseLeave={stopDragging}
-              onMouseMove={handleMouseMove}
-              className="
-                flex md:grid md:grid-cols-3 gap-6 md:gap-8
-                overflow-x-auto md:overflow-visible 
-                snap-x snap-mandatory md:snap-none 
-                no-scrollbar px-[10%] md:px-0 pb-12
-                cursor-grab active:cursor-grabbing
-              "
-            >
-              {pratos.map((prato, index) => (
-                <div 
-                  key={prato.id} 
-                  className={`
-                    min-w-[80vw] md:min-w-0 relative snap-center transition-all duration-500
-                    ${index === activeIndex ? 'scale-105 md:scale-100 z-10 opacity-100' : 'scale-90 md:scale-100 opacity-40 blur-[0.5px] md:blur-0 md:opacity-100'}
-                  `}
-                >
-                  <div className="aspect-[4/5] overflow-hidden shadow-2xl bg-white rounded-sm pointer-events-none">
-                    <img 
-                      src={prato.imagem} 
-                      alt={prato.nome}
-                      className="w-full h-full object-cover"
-                    />
-                    
-                    {/* CAIXA VERMELHA */}
-                    <div className="absolute bottom-6 right-0 w-[85%] md:w-[80%] z-20">
-                      <div className="bg-[#69151f] text-white p-5 md:p-6 shadow-xl">
-                        <h3 style={cinzel} className="text-[12px] md:text-[14px] font-bold uppercase leading-tight mb-3 tracking-wide">
-                          {prato.nome}
-                        </h3>
-                        <div className="flex items-baseline gap-0.5">
-                          <span style={montserrat} className="text-xl md:text-2xl font-bold">
-                            {prato.preco}
-                          </span>
-                          <span style={montserrat} className="text-sm">€</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* DOTS (A bolinha vermelha acompanha o activeIndex) */}
-            <div className="flex justify-center gap-3 mt-4 md:hidden">
-              {pratos.map((_, idx) => (
-                <div 
-                  key={idx} 
-                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'bg-[#69151f] w-6' : 'bg-gray-300 w-2'}`}
-                ></div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
+      {/* MOBILE VERSION (Mantida de forma simples para telas pequenas) */}
       <style>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @media (max-width: 768px) {
+          #especialidades .relative { height: auto; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; gap: 40px; }
+          #especialidades h2 { position: static; font-size: 28px !important; margin-bottom: 20px; }
+          #especialidades .shadow-2xl { position: static; width: 100% !important; height: 400px !important; }
+          #especialidades div[style*="background-color: rgb(105, 21, 31)"] { width: 100% !important; height: auto !important; padding: 20px !important; font-size: 16px !important; }
+        }
       `}</style>
     </section>
   );

@@ -1,4 +1,3 @@
-// src/components/sections/Home/Galeria.tsx
 import foto1 from "../../../assets/home/galeria/fotos/1.jpeg";
 import foto2 from "../../../assets/home/galeria/fotos/2.jpeg";
 import foto3 from "../../../assets/home/galeria/fotos/3.jpeg";
@@ -11,60 +10,102 @@ export function Galeria() {
   const montserrat = { fontFamily: "'Montserrat', sans-serif" };
   const cinzel = { fontFamily: "'Cinzel', serif" };
 
+  // FÓRMULA DE PRECISÃO: (Pixel / 1920) * 100
+  // Isso faz com que a posição seja relativa ao contentor e não à tela toda
+  const pctW = (px: number) => `${(px / 1920 * 100).toFixed(4)}%`;
+  
+  // Para o Top, usamos a mesma base de largura para manter a proporção (Aspect Ratio)
+  const pctH = (px: number) => `${(px / 1920 * 100).toFixed(4)}%`;
+
   return (
-    <section id="galeria" className="w-full bg-[#f1efea] py-16 md:py-24 px-4 flex justify-center">
-      <div className="max-w-6xl w-full">
+    <section id="galeria" className="w-full bg-[#f1efea] flex justify-center overflow-hidden">
+      
+      {/* Container Mestre: Definimos a altura baseada na largura (Aspect Ratio 1920x1726) */}
+      <div 
+        className="relative w-full max-w-[1920px] shadow-sm"
+        style={{ height: 'auto', aspectRatio: '1920 / 1650', minHeight: '1100px' }}
+      >
         
-        {/* CABEÇALHO (Igual ao teu original) */}
-        <div className="text-center mb-16">
-          <span style={montserrat} className="text-[#05402d] text-[11px] font-bold tracking-[0.4em] uppercase">Galeria</span>
-          <h2 style={cinzel} className="text-[#69151f] text-[34px] leading-tight uppercase mt-4 mb-6">O Nosso Espaço</h2>
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <div className="w-16 h-[1px] bg-[#05402d]"></div>
-            <img src={imgTouro} alt="Touro" className="h-8 w-auto object-contain mix-blend-multiply" />
-            <div className="w-16 h-[1px] bg-[#05402d]"></div>
-          </div>
-          <p style={montserrat} className="text-[#69151f] text-[11px] font-medium uppercase tracking-[0.1em]">
+        {/* ========================================================= */}
+        {/* CABEÇALHO (Centrado via Percentagem)                      */}
+        {/* ========================================================= */}
+
+        <div style={{ position: 'absolute', top: pctH(47), width: '100%', textAlign: 'center', ...montserrat }}>
+          <span style={{ fontSize: 'clamp(14px, 1.04vw, 20px)', fontWeight: 800, letterSpacing: '0.4em' }} className="text-[#05402d] uppercase">
+            Galeria
+          </span>
+        </div>
+
+        <div style={{ position: 'absolute', top: pctH(99), width: '100%', textAlign: 'center', ...cinzel }}>
+          <h2 style={{ fontSize: 'clamp(32px, 3.33vw, 64px)', fontWeight: 400 }} className="text-[#69151f] uppercase">
+            O Nosso Espaço
+          </h2>
+        </div>
+
+        {/* Divisor Touro */}
+        <div style={{ position: 'absolute', top: pctH(190), width: '100%' }} className="flex items-center justify-center gap-[1%]">
+          <div style={{ width: pctW(73), height: '2px', backgroundColor: '#05402d' }}></div>
+          <img src={imgTouro} alt="" style={{ width: pctW(58), height: 'auto' }} className="object-contain mix-blend-multiply" />
+          <div style={{ width: pctW(73), height: '2px', backgroundColor: '#05402d' }}></div>
+        </div>
+
+        {/* Bio */}
+        <div style={{ position: 'absolute', top: pctH(290), width: '100%', textAlign: 'center', ...montserrat }}>
+          <p style={{ fontSize: 'clamp(14px, 1.1vw, 21px)', fontWeight: 400 }} className="text-[#69151f] uppercase tracking-[0.1em]">
             Entra dentro do nosso mundo de culinária tradicional e ambiente fantástico.
           </p>
         </div>
 
-        {/* --- VERSÃO DESKTOP (O teu layout original de mosaico) --- */}
-        <div className="hidden md:grid grid-cols-4 gap-4">
-          {/* LADO ESQUERDO PC */}
-          <div className="md:col-span-2 flex flex-col gap-4">
-            <div className="aspect-square overflow-hidden shadow-lg group">
-              <img src={foto1} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000" alt="G1" />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="aspect-square overflow-hidden shadow-md group"><img src={foto4} className="w-full h-full object-cover group-hover:scale-110" alt="G4" /></div>
-              <div className="aspect-square overflow-hidden shadow-md group"><img src={foto5} className="w-full h-full object-cover group-hover:scale-110" alt="G5" /></div>
-            </div>
-          </div>
-          {/* LADO DIREITO PC */}
-          <div className="md:col-span-2 flex flex-col gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="aspect-square overflow-hidden shadow-md group"><img src={foto2} className="w-full h-full object-cover group-hover:scale-110" alt="G2" /></div>
-              <div className="aspect-square overflow-hidden shadow-md group"><img src={foto3} className="w-full h-full object-cover group-hover:scale-110" alt="G3" /></div>
-            </div>
-            <div className="aspect-square overflow-hidden shadow-lg group">
-              <img src={foto6} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000" alt="G6" />
-            </div>
-          </div>
+        {/* ========================================================= */}
+        {/* MOSAICO BLINDADO (Usando % para não quebrar no Zoom)       */}
+        {/* ========================================================= */}
+
+        {/* Foto 1 (GRANDE TOP LEFT) */}
+        <div 
+          style={{ position: 'absolute', top: pctH(364), left: pctW(154), width: pctW(798), height: pctH(795) }}
+          className="overflow-hidden shadow-xl group bg-white"
+        >
+          <img src={foto1} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="" />
         </div>
 
-        {/* --- VERSÃO MOBILE (A sequência que pediste: 1, 2+3, 4, 5+6) --- */}
-        <div className="grid md:hidden grid-cols-2 gap-4">
-          {/* Foto 1 (Grande) */}
-          <div className="col-span-2 aspect-[4/3] overflow-hidden shadow-lg"><img src={foto1} className="w-full h-full object-cover" alt="M1" /></div>
-          {/* Fotos 2 e 3 (Pequenas) */}
-          <div className="aspect-square overflow-hidden shadow-md"><img src={foto2} className="w-full h-full object-cover" alt="M2" /></div>
-          <div className="aspect-square overflow-hidden shadow-md"><img src={foto3} className="w-full h-full object-cover" alt="M3" /></div>
-          {/* Foto 4 (Grande) */}
-          <div className="col-span-2 aspect-[4/3] overflow-hidden shadow-lg"><img src={foto4} className="w-full h-full object-cover" alt="M4" /></div>
-          {/* Fotos 5 e 6 (Pequenas) */}
-          <div className="aspect-square overflow-hidden shadow-md"><img src={foto5} className="w-full h-full object-cover" alt="M5" /></div>
-          <div className="aspect-square overflow-hidden shadow-md"><img src={foto6} className="w-full h-full object-cover" alt="M6" /></div>
+        {/* Foto 4 (SMALL BOTTOM LEFT 1) */}
+        <div 
+          style={{ position: 'absolute', top: pctH(1175), left: pctW(154), width: pctW(391), height: pctH(386) }}
+          className="overflow-hidden shadow-lg group bg-white"
+        >
+          <img src={foto4} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" />
+        </div>
+
+        {/* Foto 5 (SMALL BOTTOM LEFT 2) */}
+        <div 
+          style={{ position: 'absolute', top: pctH(1175), left: pctW(561), width: pctW(391), height: pctH(386) }}
+          className="overflow-hidden shadow-lg group bg-white"
+        >
+          <img src={foto5} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" />
+        </div>
+
+        {/* Foto 2 (SMALL TOP CENTER) */}
+        <div 
+          style={{ position: 'absolute', top: pctH(366), left: pctW(968), width: pctW(391), height: pctH(386) }}
+          className="overflow-hidden shadow-lg group bg-white"
+        >
+          <img src={foto2} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" />
+        </div>
+
+        {/* Foto 3 (SMALL TOP RIGHT) */}
+        <div 
+          style={{ position: 'absolute', top: pctH(366), left: pctW(1375), width: pctW(391), height: pctH(386) }}
+          className="overflow-hidden shadow-lg group bg-white"
+        >
+          <img src={foto3} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="" />
+        </div>
+
+        {/* Foto 6 (GRANDE BOTTOM RIGHT) */}
+        <div 
+          style={{ position: 'absolute', top: pctH(774), left: pctW(972), width: pctW(796), height: pctH(797) }}
+          className="overflow-hidden shadow-xl group bg-white"
+        >
+          <img src={foto6} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="" />
         </div>
 
       </div>

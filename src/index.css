@@ -1,25 +1,28 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@400;700&family=Allura&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@400;700&family=Allura&display=swap');
+/* Importação das fontes */
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@400..900&family=Montserrat:wght@100..900&display=swap');
+
 html {
   scroll-behavior: smooth;
 }
 
+/* O VS Code reclama aqui, mas o Tailwind v4 precisa disto */
 @theme {
   --color-brand-green: #05402d;
   --color-brand-red: #69151f;
-  --font-sans: "Montserrat", sans-serif;
+  
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cinzel", ui-serif, Georgia, serif;
 }
-/* No teu index.css */
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
   .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;     /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
@@ -27,6 +30,6 @@ html {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
-  -webkit-overflow-scrolling: touch; /* Scroll suave no iPhone */
-  touch-action: pan-x; /* Melhora a resposta ao toque horizontal */
+  -webkit-overflow-scrolling: touch; 
+  touch-action: pan-x;
 }

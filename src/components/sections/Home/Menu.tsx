@@ -1,4 +1,3 @@
-// src/components/sections/Home/Menu.tsx
 import { useState, useEffect, useRef } from 'react';
 import { getPratos, type Prato } from '../../../services/menu';
 import imgTouro from '../../../assets/home/touro/tourro.png';
@@ -11,6 +10,9 @@ export function Menu() {
 
   const montserrat = { fontFamily: "'Montserrat', sans-serif" };
   const cinzel = { fontFamily: "'Cinzel', serif" };
+
+  // Função para converter o pixel exato do Penpot em medida elástica (base 1920px)
+  const pxToVw = (px: number) => `${(px / 19.2).toFixed(4)}vw`;
 
   useEffect(() => {
     async function carregarMenu() {
@@ -34,116 +36,118 @@ export function Menu() {
 
   const pratosExibidos = pratos.filter(p => p.categoria === categoriaAtiva);
 
-  // Função para scroll das categorias no mobile (ERRO CLIENTWIDTH RESOLVIDO)
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const { scrollLeft } = scrollRef.current;
-      const scrollTo = direction === 'left' ? scrollLeft - 150 : scrollLeft + 150;
-      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
-    }
-  };
-
   return (
-    <section id="menu" className="w-full bg-[#f1efea] pt-16 pb-0 flex flex-col items-center">
-      <div className="max-w-4xl w-full px-6">
+    <section id="menu" className="w-full bg-[#f1efea] flex flex-col items-center overflow-hidden">
+      
+      {/* ========================================================= */}
+      {/* CABEÇALHO DO MENU (PIXEL PERFECT)                         */}
+      {/* ========================================================= */}
+      <div className="relative w-full max-w-[1920px] h-[clamp(450px,28vw,550px)] mx-auto">
         
-        {/* CABEÇALHO */}
-        <div className="text-center mb-12">
-          <span style={montserrat} className="text-[#05402d] text-[10px] font-bold tracking-[0.5em] uppercase">
-            Menu
+        {/* Label: MENU (image_753826) - Top 52px | Font 20px */}
+        <div style={{ position: 'absolute', top: pxToVw(52), width: '100%', textAlign: 'center', ...montserrat }}>
+          <span style={{ fontSize: pxToVw(20), fontWeight: 800, letterSpacing: '0.5em' }} className="text-[#05402d] uppercase">
+            MENU
           </span>
-          <h2 style={cinzel} className="text-[#69151f] text-3xl md:text-5xl uppercase mt-2 mb-4">
+        </div>
+
+        {/* Título: OS NOSSOS PRATOS (image_753843) - Top 105px | Font 64px */}
+        <div style={{ position: 'absolute', top: pxToVw(105), width: '100%', textAlign: 'center', ...cinzel }}>
+          <h2 style={{ fontSize: pxToVw(64), fontWeight: 400 }} className="text-[#69151f] uppercase">
             Os Nossos Pratos
           </h2>
-          
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="w-16 h-[1.5px] bg-[#05402d]"></div>
-            <img src={imgTouro} alt="Touro" className="h-8 w-auto mix-blend-multiply" />
-            <div className="w-16 h-[1.5px] bg-[#05402d]"></div>
-          </div>
+        </div>
 
-          <p style={montserrat} className="text-[#69151f] text-[10px] md:text-[11px] font-medium tracking-wide text-center">
-            Todos os nossos grelhados são feitos no carvão.
+        {/* Divisor Touro (image_753860) - Top 210px */}
+        <div style={{ position: 'absolute', top: pxToVw(210), width: '100%' }} className="flex items-center justify-center gap-[1vw]">
+          <div style={{ width: pxToVw(80), height: '2px', backgroundColor: '#05402d' }}></div>
+          <img src={imgTouro} alt="" style={{ width: pxToVw(63.56), height: pxToVw(82) }} className="object-contain mix-blend-multiply" />
+          <div style={{ width: pxToVw(80), height: '2px', backgroundColor: '#05402d' }}></div>
+        </div>
+
+        {/* Descrição: Todos os nossos... (image_75387e) - Top 295px | Font 21px */}
+        <div style={{ position: 'absolute', top: pxToVw(315), width: '100%', textAlign: 'center', ...montserrat }}>
+          <p style={{ fontSize: pxToVw(21), fontWeight: 400 }} className="text-[#69151f]">
+            Todos os nossos grelhados são feitos no carvão
           </p>
         </div>
+      </div>
 
-        {/* BARRA DE CATEGORIAS (ESTILO BILHETE COM CANTOS RECORTADOS) */}
-        <div className="relative flex items-center mb-12 group">
-          {/* Seta Esquerda Mobile */}
-          <button 
-            onClick={() => scroll('left')} 
-            className="md:hidden absolute left-2 z-10 text-white text-[10px] bg-[#05402d] w-6 h-6 flex items-center justify-center rounded-full shadow-lg"
-          >
-            ◀
-          </button>
-          
-          <div 
-            ref={scrollRef}
-            className="w-full bg-[#05402d] text-white py-5 px-8 overflow-x-auto no-scrollbar relative"
-            style={{ 
-              clipPath: "polygon(0% 15%, 2% 0%, 98% 0%, 100% 15%, 100% 85%, 98% 100%, 2% 100%, 0% 85%)" 
-            }}
-          >
-            <ul className="flex items-center justify-start md:justify-center gap-8 min-w-max">
-              {categorias.map((cat) => (
-                <li 
-                  key={cat} 
-                  onClick={() => setCategoriaAtiva(cat)}
-                  style={montserrat}
-                  className={`text-[9px] md:text-[10px] font-bold tracking-widest cursor-pointer transition-all border-b-2 py-1
-                    ${categoriaAtiva === cat ? "border-white" : "border-transparent opacity-50 hover:opacity-100"}`}
-                >
-                  {cat}
-                </li>
-              ))}
-            </ul>
-          </div>
+      {/* ========================================================= */}
+      {/* BARRA DE CATEGORIAS (TICKET STYLE - image_75389d)         */}
+      {/* ========================================================= */}
+      <div 
+        style={{ 
+          width: pxToVw(1389.72), 
+          height: pxToVw(101.27), 
+          backgroundColor: '#05402D',
+          clipPath: "polygon(0% 25%, 2% 0%, 98% 0%, 100% 25%, 100% 75%, 98% 100%, 2% 100%, 0% 75%)"
+        }}
+        className="flex items-center justify-center mb-[5vw] shadow-xl"
+      >
+        <ul className="flex items-center justify-center gap-x-[2vw] w-full px-[4vw]">
+          {categorias.map((cat) => (
+            <li 
+              key={cat} 
+              onClick={() => setCategoriaAtiva(cat)} 
+              style={{ ...montserrat, fontWeight: 700, fontSize: pxToVw(13) }} 
+              className={`tracking-widest cursor-pointer transition-all text-white flex flex-col items-center uppercase ${categoriaAtiva === cat ? "opacity-100" : "opacity-50 hover:opacity-100"}`}
+            >
+              <span>{cat}</span>
+              <div className={`h-[2px] bg-white transition-all duration-300 mt-1 ${categoriaAtiva === cat ? "w-full" : "w-0"}`} />
+            </li>
+          ))}
+        </ul>
+      </div>
 
-          {/* Seta Direita Mobile */}
-          <button 
-            onClick={() => scroll('right')} 
-            className="md:hidden absolute right-2 z-10 text-white text-[10px] bg-[#05402d] w-6 h-6 flex items-center justify-center rounded-full shadow-lg"
-          >
-            ▶
-          </button>
-        </div>
-
-        {/* LISTA DE PRATOS */}
+      {/* ========================================================= */}
+      {/* LISTA DE PRATOS (SIMÉTRICA - image_7538c2)                */}
+      {/* ========================================================= */}
+      <div className="w-full max-w-[1920px] px-[10vw] pb-32">
         {loading ? (
-          <div style={montserrat} className="text-center py-20 text-[#69151f] text-[10px] uppercase tracking-widest animate-pulse">
-            A preparar iguarias...
-          </div>
+          <div style={montserrat} className="text-center py-20 text-[#69151f] text-xl uppercase tracking-widest animate-pulse">A carregar o menu...</div>
         ) : (
-          <div className="flex flex-col gap-8 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[8vw] gap-y-[3vw]">
             {pratosExibidos.map((item) => (
-              <div key={item.id} className="flex items-center gap-4">
+              <div key={item.id} className="flex items-center gap-[1.5vw] group w-full">
                 
-                {/* Imagem Circular */}
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0 border border-[#05402d]/20 bg-white">
-                  <img 
-                    src={item.imagem || imgTouro} 
-                    alt={item.nome} 
-                    className="w-full h-full object-cover" 
-                  />
+                {/* Imagem/Avatar Circular (image_7538a4) - 80px */}
+                <div 
+                  style={{ width: pxToVw(80), height: pxToVw(80) }} 
+                  className="rounded-full overflow-hidden flex-shrink-0 border-2 border-white bg-[#B1B2B5] shadow-sm transition-transform duration-300 group-hover:scale-110"
+                >
+                  <img src={item.imagem || imgTouro} alt={item.nome} className="w-full h-full object-cover" />
                 </div>
 
-                {/* Nome, Linha Conectora e Preços */}
-                <div className="flex-1 flex items-center justify-between gap-2">
-                  <div className="flex items-center flex-1 gap-2">
-                    <span style={montserrat} className="text-[#69151f] text-[10px] md:text-[11px] font-bold uppercase leading-tight">
-                      {item.nome}
-                    </span>
-                    <div className="flex-1 border-b border-[#05402d]/30 relative top-[2px]"></div>
-                  </div>
+                {/* Conteúdo: Nome --- Preço (Simétrico) */}
+                <div className="flex-1 flex items-center justify-between overflow-hidden">
+                  
+                  {/* Nome do Prato (Montserrat 21px) */}
+                  <span 
+                    style={{ ...montserrat, fontSize: pxToVw(21), fontWeight: 400 }} 
+                    className="text-[#69151f] uppercase leading-tight whitespace-nowrap pr-[1vw]"
+                  >
+                    {item.nome}
+                  </span>
 
-                  <div style={montserrat} className="flex gap-4 text-[10px] md:text-[11px] font-bold text-[#69151f] whitespace-nowrap">
+                  {/* O TRAÇO VERDE (Preenche o que falta) */}
+                  <div className="flex-1 border-b-[1.5px] border-[#05402d] opacity-30 relative top-[-4px]"></div>
+
+                  {/* Preços (Alinhados em linha reta à direita) */}
+                  <div 
+                    style={{ ...montserrat, fontSize: pxToVw(21), fontWeight: 700 }} 
+                    className="flex gap-[1.5vw] text-[#69151f] whitespace-nowrap pl-[1vw]"
+                  >
                     {item.preco_meia && (
                       <span className="flex items-center gap-1">
-                        <span className="text-[12px] font-medium opacity-80">½</span> {item.preco_meia}€
+                        <span className="text-[1.2vw] font-medium opacity-80">½</span> {item.preco_meia}€
                       </span>
                     )}
-                    {item.preco && <span>{item.preco}€</span>}
+                    {item.preco && (
+                      <span className="min-w-[5vw] text-right">{item.preco}€</span>
+                    )}
                   </div>
+
                 </div>
               </div>
             ))}
@@ -151,14 +155,6 @@ export function Menu() {
         )}
       </div>
 
-      {/* RODAPÉ DO MENU (Barra Castanha #69151f) */}
-      <div className="w-full bg-[#69151f] py-5 flex justify-center mt-10">
-        <span style={cinzel} className="text-white text-[12px] md:text-[14px] font-bold tracking-[0.5em] uppercase">
-          Menu
-        </span>
-      </div>
-
-      {/* ESTILO PARA ESCONDER A BARRA DE SCROLL */}
       <style>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
