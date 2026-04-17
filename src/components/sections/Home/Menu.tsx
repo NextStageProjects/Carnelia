@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { getPratos, type Prato } from '../../../services/menu';
 import imgTouro from '../../../assets/home/touro/tourro.png';
 
@@ -6,7 +6,6 @@ export function Menu() {
   const [categoriaAtiva, setCategoriaAtiva] = useState("CARNES DE BOI");
   const [pratos, setPratos] = useState<Prato[]>([]);
   const [loading, setLoading] = useState(true);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   const montserrat = { fontFamily: "'Montserrat', sans-serif" };
   const cinzel = { fontFamily: "'Cinzel', serif" };
@@ -40,32 +39,28 @@ export function Menu() {
     <section id="menu" className="w-full bg-[#f1efea] flex flex-col items-center overflow-hidden">
       
       {/* ========================================================= */}
-      {/* CABEÇALHO DO MENU (PIXEL PERFECT)                         */}
+      {/* CABEÇALHO DO MENU                                         */}
       {/* ========================================================= */}
       <div className="relative w-full max-w-[1920px] h-[clamp(450px,28vw,550px)] mx-auto">
         
-        {/* Label: MENU (image_753826) - Top 52px | Font 20px */}
         <div style={{ position: 'absolute', top: pxToVw(52), width: '100%', textAlign: 'center', ...montserrat }}>
           <span style={{ fontSize: pxToVw(20), fontWeight: 800, letterSpacing: '0.5em' }} className="text-[#05402d] uppercase">
             MENU
           </span>
         </div>
 
-        {/* Título: OS NOSSOS PRATOS (image_753843) - Top 105px | Font 64px */}
         <div style={{ position: 'absolute', top: pxToVw(105), width: '100%', textAlign: 'center', ...cinzel }}>
           <h2 style={{ fontSize: pxToVw(64), fontWeight: 400 }} className="text-[#69151f] uppercase">
             Os Nossos Pratos
           </h2>
         </div>
 
-        {/* Divisor Touro (image_753860) - Top 210px */}
         <div style={{ position: 'absolute', top: pxToVw(210), width: '100%' }} className="flex items-center justify-center gap-[1vw]">
           <div style={{ width: pxToVw(80), height: '2px', backgroundColor: '#05402d' }}></div>
           <img src={imgTouro} alt="" style={{ width: pxToVw(63.56), height: pxToVw(82) }} className="object-contain mix-blend-multiply" />
           <div style={{ width: pxToVw(80), height: '2px', backgroundColor: '#05402d' }}></div>
         </div>
 
-        {/* Descrição: Todos os nossos... (image_75387e) - Top 295px | Font 21px */}
         <div style={{ position: 'absolute', top: pxToVw(315), width: '100%', textAlign: 'center', ...montserrat }}>
           <p style={{ fontSize: pxToVw(21), fontWeight: 400 }} className="text-[#69151f]">
             Todos os nossos grelhados são feitos no carvão
@@ -74,7 +69,7 @@ export function Menu() {
       </div>
 
       {/* ========================================================= */}
-      {/* BARRA DE CATEGORIAS (TICKET STYLE - image_75389d)         */}
+      {/* BARRA DE CATEGORIAS (TICKET STYLE)                        */}
       {/* ========================================================= */}
       <div 
         style={{ 
@@ -101,7 +96,7 @@ export function Menu() {
       </div>
 
       {/* ========================================================= */}
-      {/* LISTA DE PRATOS (SIMÉTRICA - image_7538c2)                */}
+      {/* LISTA DE PRATOS (SIMÉTRICA)                               */}
       {/* ========================================================= */}
       <div className="w-full max-w-[1920px] px-[10vw] pb-32">
         {loading ? (
@@ -111,7 +106,6 @@ export function Menu() {
             {pratosExibidos.map((item) => (
               <div key={item.id} className="flex items-center gap-[1.5vw] group w-full">
                 
-                {/* Imagem/Avatar Circular (image_7538a4) - 80px */}
                 <div 
                   style={{ width: pxToVw(80), height: pxToVw(80) }} 
                   className="rounded-full overflow-hidden flex-shrink-0 border-2 border-white bg-[#B1B2B5] shadow-sm transition-transform duration-300 group-hover:scale-110"
@@ -119,10 +113,7 @@ export function Menu() {
                   <img src={item.imagem || imgTouro} alt={item.nome} className="w-full h-full object-cover" />
                 </div>
 
-                {/* Conteúdo: Nome --- Preço (Simétrico) */}
                 <div className="flex-1 flex items-center justify-between overflow-hidden">
-                  
-                  {/* Nome do Prato (Montserrat 21px) */}
                   <span 
                     style={{ ...montserrat, fontSize: pxToVw(21), fontWeight: 400 }} 
                     className="text-[#69151f] uppercase leading-tight whitespace-nowrap pr-[1vw]"
@@ -130,10 +121,8 @@ export function Menu() {
                     {item.nome}
                   </span>
 
-                  {/* O TRAÇO VERDE (Preenche o que falta) */}
                   <div className="flex-1 border-b-[1.5px] border-[#05402d] opacity-30 relative top-[-4px]"></div>
 
-                  {/* Preços (Alinhados em linha reta à direita) */}
                   <div 
                     style={{ ...montserrat, fontSize: pxToVw(21), fontWeight: 700 }} 
                     className="flex gap-[1.5vw] text-[#69151f] whitespace-nowrap pl-[1vw]"
@@ -147,7 +136,6 @@ export function Menu() {
                       <span className="min-w-[5vw] text-right">{item.preco}€</span>
                     )}
                   </div>
-
                 </div>
               </div>
             ))}
