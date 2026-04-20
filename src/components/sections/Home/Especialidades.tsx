@@ -1,27 +1,57 @@
-// src/components/sections/Home/Especialidades.tsx
-
 export function Especialidades() {
   const cinzel = { fontFamily: "'Cinzel', serif" };
   const montserrat = { fontFamily: "'Montserrat', sans-serif" };
 
-  // FOTOS TEMPORÁRIAS (Mantendo os links que forneceste)
-  const imgTeste1 = "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=401&h=496&auto=format&fit=crop";
-  const imgTeste2 = "https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=401&h=496&auto=format&fit=crop";
-  const imgTeste3 = "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=401&h=496&auto=format&fit=crop";
+  // FOTOS TEMPORÁRIAS
+  const imgTeste1 = "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&h=800&auto=format&fit=crop";
+  const imgTeste2 = "https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=600&h=800&auto=format&fit=crop";
+  const imgTeste3 = "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=600&h=800&auto=format&fit=crop";
 
   // Função para converter o pixel exato do Penpot em medida elástica (base 1920px)
   const pxToVw = (px: number) => `${(px / 19.2).toFixed(4)}vw`;
 
+  const especialidadesData = [
+    {
+      id: 1,
+      nome: "Costeleta de boi grelhada p/2 pessoas à cernelha",
+      preco: "33,50€",
+      img: imgTeste1,
+      left: 19,
+      width: 599,
+      height: 745,
+      top: 227
+    },
+    {
+      id: 2,
+      nome: "Febras de porco grelhadas",
+      preco: "14,95€",
+      img: imgTeste2,
+      left: 656.5,
+      width: 606.97,
+      height: 743,
+      top: 228
+    },
+    {
+      id: 3,
+      nome: "Sopa da Pedra p/ 2 pessoas Stone Soup",
+      preco: "6,20€",
+      img: imgTeste3,
+      left: 1295,
+      width: 607,
+      height: 744,
+      top: 228
+    }
+  ];
+
   return (
     <section id="especialidades" className="w-full bg-white flex justify-center overflow-hidden">
-      {/* Container Mestre 1920px para travar o layout com as coordenadas do Penpot */}
       <div className="relative w-full max-w-[1920px] h-[clamp(800px,60vw,1150px)] mx-auto">
 
         {/* ========================================================= */}
-        {/* CABEÇALHO (Título e Linhas Verdes laterais)              */}
+        {/* CABEÇALHO (LINHAS VERDES DOS PRINTS)                      */}
         {/* ========================================================= */}
         
-        {/* Linha Verde Esquerda: W 473px | T 134px | L 30px */}
+        {/* Linha Verde Esquerda (image_664caa) */}
         <div 
           style={{ 
             position: 'absolute',
@@ -34,15 +64,8 @@ export function Especialidades() {
           className="hidden md:block"
         />
 
-        {/* Título Central: Top 93px | Font 64px */}
-        <div 
-          style={{ 
-            position: 'absolute',
-            top: pxToVw(93),
-            width: '100%',
-            textAlign: 'center'
-          }}
-        >
+        {/* Título Central */}
+        <div style={{ position: 'absolute', top: pxToVw(93), width: '100%', textAlign: 'center' }}>
           <h2 
             style={{ ...cinzel, fontSize: `clamp(32px, ${pxToVw(64)}, 64px)`, fontWeight: 400 }} 
             className="text-[#69151f] uppercase"
@@ -51,7 +74,7 @@ export function Especialidades() {
           </h2>
         </div>
 
-        {/* Linha Verde Direita: W 473px | T 131px | L 1413px */}
+        {/* Linha Verde Direita (image_664ce6) */}
         <div 
           style={{ 
             position: 'absolute',
@@ -65,113 +88,64 @@ export function Especialidades() {
         />
 
         {/* ========================================================= */}
-        {/* GRID DE CARDS (Costeleta, Febras e Sopa)                  */}
+        {/* GRID DE CARDS COM ANIMAÇÃO NO HOVER                       */}
         {/* ========================================================= */}
-
-        {/* CARD 1: COSTELETA (Left 19px | Top 227px | Width 599px) */}
-        <div 
-          style={{ 
-            position: 'absolute',
-            top: pxToVw(227),
-            left: pxToVw(19),
-            width: pxToVw(599),
-            height: pxToVw(745)
-          }}
-          className="shadow-2xl overflow-hidden group"
-        >
-          <img src={imgTeste1} alt="Costeleta" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-          
-          {/* Caixa Vermelha (Bottom-Right): Width 484px | Height 131px */}
+        {especialidadesData.map((item) => (
           <div 
+            key={item.id}
             style={{ 
               position: 'absolute',
-              bottom: 0,
-              right: 0,
-              width: pxToVw(483.98),
-              height: pxToVw(130.68),
-              backgroundColor: '#69151F'
+              top: pxToVw(item.top),
+              left: pxToVw(item.left),
+              width: pxToVw(item.width),
+              height: pxToVw(item.height)
             }}
-            className="flex items-center justify-center p-6"
+            className="shadow-2xl overflow-hidden group cursor-pointer"
           >
-            <p style={{ ...cinzel, fontSize: pxToVw(28) }} className="text-white uppercase text-center leading-tight">
-              Costeleta de boi grelhada <br /> p/2 pessoas à cernelha
-            </p>
-          </div>
-        </div>
+            {/* Imagem com Zoom suave */}
+            <img 
+              src={item.img} 
+              alt={item.nome} 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+            />
 
-        {/* CARD 2: FEBRAS (Left 656.5px | Top 228px | Width 607px) */}
-        <div 
-          style={{ 
-            position: 'absolute',
-            top: pxToVw(228),
-            left: pxToVw(656.5), 
-            width: pxToVw(606.97),
-            height: pxToVw(743)
-          }}
-          className="shadow-2xl overflow-hidden group"
-        >
-          <img src={imgTeste2} alt="Febras" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-          
-          <div 
-            style={{ 
-              position: 'absolute',
-              bottom: 0,
-              right: 0,
-              width: pxToVw(490.42),
-              height: pxToVw(130.32),
-              backgroundColor: '#69151F'
-            }}
-            className="flex items-center justify-center p-6"
-          >
-            <p style={{ ...cinzel, fontSize: pxToVw(28) }} className="text-white uppercase text-center leading-tight">
-              Febras de porco <br /> grelhadas
-            </p>
-          </div>
-        </div>
+            {/* Caixa Vermelha: Sobe ao passar o rato */}
+            <div 
+              style={{ 
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                width: pxToVw(490),
+                backgroundColor: '#69151F',
+                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+              className="flex flex-col items-center justify-start p-6 h-[131px] group-hover:h-[200px]"
+            >
+              <p 
+                style={{ ...cinzel, fontSize: pxToVw(26) }} 
+                className="text-white uppercase text-center leading-tight mb-4"
+              >
+                {item.nome}
+              </p>
 
-        {/* CARD 3: SOPA (Left 1295px | Top 228px | Width 607px) */}
-        <div 
-          style={{ 
-            position: 'absolute',
-            top: pxToVw(228),
-            left: pxToVw(1295),
-            width: pxToVw(607),
-            height: pxToVw(744)
-          }}
-          className="shadow-2xl overflow-hidden group"
-        >
-          <img src={imgTeste3} alt="Sopa" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-          
-          {/* Caixa Vermelha mais alta para o preço */}
-          <div 
-            style={{ 
-              position: 'absolute',
-              bottom: 0,
-              right: 0,
-              width: pxToVw(490),
-              height: pxToVw(200),
-              backgroundColor: '#69151F'
-            }}
-            className="flex flex-col items-center justify-center p-6"
-          >
-            <p style={{ ...cinzel, fontSize: pxToVw(26) }} className="text-white uppercase text-center leading-tight mb-2">
-              Sopa da Pedra p/ 2 pessoas <br /> Stone Soup
-            </p>
-            <span style={{ ...montserrat, fontSize: pxToVw(32), fontWeight: 700 }} className="text-white">
-              6,20€
-            </span>
+              {/* Revelação do Preço */}
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center">
+                <span 
+                  style={{ ...montserrat, fontSize: pxToVw(42), fontWeight: 700 }} 
+                  className="text-white"
+                >
+                  {item.preco}
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
 
       </div>
 
-      {/* MOBILE VERSION (Mantida de forma simples para telas pequenas) */}
       <style>{`
-        @media (max-width: 768px) {
-          #especialidades .relative { height: auto; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; gap: 40px; }
-          #especialidades h2 { position: static; font-size: 28px !important; margin-bottom: 20px; }
-          #especialidades .shadow-2xl { position: static; width: 100% !important; height: 400px !important; }
-          #especialidades div[style*="background-color: rgb(105, 21, 31)"] { width: 100% !important; height: auto !important; padding: 20px !important; font-size: 16px !important; }
+        .group:hover div[style*="background-color: #69151F"] {
+          height: 200px !important;
         }
       `}</style>
     </section>

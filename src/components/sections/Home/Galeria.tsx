@@ -11,14 +11,11 @@ export function Galeria() {
   const cinzel = { fontFamily: "'Cinzel', serif" };
 
   // FÓRMULA DE PRECISÃO: (Pixel / 1920) * 100
-  // Isso faz com que a posição seja relativa ao contentor e não à tela toda
   const pctW = (px: number) => `${(px / 1920 * 100).toFixed(4)}%`;
-  
-  // Para o Top, usamos a mesma base de largura para manter a proporção (Aspect Ratio)
   const pctH = (px: number) => `${(px / 1920 * 100).toFixed(4)}%`;
 
   return (
-    <section id="galeria" className="w-full bg-[#f1efea] flex justify-center overflow-hidden">
+    <section id="galeria" className="w-full bg-[#ffffff] flex justify-center overflow-hidden">
       
       {/* Container Mestre: Definimos a altura baseada na largura (Aspect Ratio 1920x1726) */}
       <div 
@@ -49,9 +46,9 @@ export function Galeria() {
           <div style={{ width: pctW(73), height: '2px', backgroundColor: '#05402d' }}></div>
         </div>
 
-        {/* Bio */}
+        {/* Bio (REMOVIDO UPPERCASE AQUI) */}
         <div style={{ position: 'absolute', top: pctH(290), width: '100%', textAlign: 'center', ...montserrat }}>
-          <p style={{ fontSize: 'clamp(14px, 1.1vw, 21px)', fontWeight: 400 }} className="text-[#69151f] uppercase tracking-[0.1em]">
+          <p style={{ fontSize: 'clamp(14px, 1.1vw, 21px)', fontWeight: 400 }} className="text-[#69151f] tracking-[0.1em]">
             Entra dentro do nosso mundo de culinária tradicional e ambiente fantástico.
           </p>
         </div>
@@ -101,7 +98,7 @@ export function Galeria() {
         </div>
 
         {/* Foto 6 (GRANDE BOTTOM RIGHT) */}
-        <div 
+        <div  
           style={{ position: 'absolute', top: pctH(774), left: pctW(972), width: pctW(796), height: pctH(797) }}
           className="overflow-hidden shadow-xl group bg-white"
         >
